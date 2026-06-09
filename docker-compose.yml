@@ -1,0 +1,27 @@
+services:
+  devopsgpt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: devopsgpt:latest
+    ports:
+      - "8000:8000"
+    # All config is optional; uncomment/populate to move integrations to live.
+    # Values here override .env. Defaults run fully mocked & offline.
+    environment:
+      DEVOPSGPT_LOG_JSON: "true"
+      DEVOPSGPT_LLM_PROVIDER: "${DEVOPSGPT_LLM_PROVIDER:-mock}"
+      SPLUNK_MODE: "${SPLUNK_MODE:-auto}"
+      JIRA_MODE: "${JIRA_MODE:-mock}"
+      GITHUB_MODE: "${GITHUB_MODE:-mock}"
+    # Load secrets from .env if present (does not fail if absent).
+    env_file:
+      - path: .env
+        required: false
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/healthz').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
