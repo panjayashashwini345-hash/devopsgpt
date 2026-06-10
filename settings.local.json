@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:dev.splunk.com)",
+      "WebFetch(domain:splunkbase.splunk.com)",
+      "WebFetch(domain:docs.splunk.com)",
+      "Bash(curl -sS -L -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0 Safari/537.36\" -o /tmp/hostedmodels.html -w \"HTTP_STATUS:%{http_code}\\\\nFINAL_URL:%{url_effective}\\\\n\" \"https://dev.splunk.com/enterprise/docs/devtools/hostedmodels/\")",
+      "Read(//tmp/**)",
+      "Bash(curl -sL -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0 Safari/537.36\" -o /dev/null -w \"%{http_code} final=%{url_effective}\\\\n\" \"https://splunkbase.splunk.com/app/8047\")"
+    ]
+  }
+}
